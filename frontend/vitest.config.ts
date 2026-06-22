@@ -13,5 +13,8 @@ export default defineConfig({
   test: {
     environment: "jsdom",
     globals: true,
+    // Faqat unit testlar; e2e (Playwright) Vitest tomonidan yig'ilmasligi kerak
+    include: ["__tests__/**/*.{test,spec}.{ts,tsx}"],
+    exclude: ["node_modules/**", "e2e/**", ".next/**"],
   },
 });
