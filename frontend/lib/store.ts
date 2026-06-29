@@ -15,6 +15,10 @@ interface AuthState {
     full_name: string
   ) => Promise<void>;
   loadMe: () => Promise<void>;
+  loginWithGoogle: (idToken: string) => Promise<void>;
+  loginWithTelegram: (payload: Record<string, unknown>) => Promise<void>;
+  sendOtp: (phone: string) => Promise<void>;
+  verifyOtp: (phone: string, code: string) => Promise<void>;
   updateProfile: (patch: {
     full_name?: string;
     phone?: string | null;
@@ -48,6 +52,61 @@ export const useAuth = create<AuthState>((set) => ({
         email,
         password,
         full_name,
+      });
+      tokenStore.set(data.tokens.access, data.tokens.refresh);
+      set({ user: data.user });
+    } catch (e) {
+      throw new Error(apiError(e));
+    } finally {
+      set({ loading: false });
+    }
+  },
+
+  async loginWithGoogle(idToken) {
+    set({ loading: true });
+    try {
+      const { data } = await api.post<RegisterResponse>("/auth/google", {
+        id_token: idToken,
+      });
+      tokenStore.set(data.tokens.access, data.tokens.refresh);
+      set({ user: data.user });
+    } catch (e) {
+      throw new Error(apiError(e));
+    } finally {
+      set({ loading: false });
+    }
+  },
+
+  async loginWithTelegram(payload) {
+    set({ loading: true });
+    try {
+      const { data } = await api.post<RegisterResponse>(
+        "/auth/telegram",
+        payload
+      );
+      tokenStore.set(data.tokens.access, data.tokens.refresh);
+      set({ user: data.user });
+    } catch (e) {
+      throw new Error(apiError(e));
+    } finally {
+      set({ loading: false });
+    }
+  },
+
+  async sendOtp(phone) {
+    try {
+      await api.post("/auth/otp/send", { phone });
+    } catch (e) {
+      throw new Error(apiError(e));
+    }
+  },
+
+  async verifyOtp(phone, code) {
+    set({ loading: true });
+    try {
+      const { data } = await api.post<RegisterResponse>("/auth/otp/verify", {
+        phone,
+        code,
       });
       tokenStore.set(data.tokens.access, data.tokens.refresh);
       set({ user: data.user });

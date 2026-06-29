@@ -58,3 +58,45 @@ class EmailTokenObtainPairSerializer(TokenObtainPairSerializer):
         token = super().get_token(user)
         token["plan"] = user.effective_plan
         return token
+
+
+# --- Ijtimoiy / telefon auth ---------------------------------------------
+class GoogleAuthSerializer(serializers.Serializer):
+    id_token = serializers.CharField()
+
+
+class TelegramAuthSerializer(serializers.Serializer):
+    """Telegram Login Widget payload'i. `hash` xom dictdan tekshiriladi."""
+
+    id = serializers.IntegerField()
+    first_name = serializers.CharField(required=False, allow_blank=True)
+    last_name = serializers.CharField(required=False, allow_blank=True)
+    username = serializers.CharField(required=False, allow_blank=True)
+    photo_url = serializers.CharField(required=False, allow_blank=True)
+    auth_date = serializers.IntegerField()
+    hash = serializers.CharField()
+
+
+def _normalize_uz_phone(value):
+    """+998XXXXXXXXX shakliga keltiradi (probel/chiziqchalarni olib tashlaydi)."""
+    digits = "".join(ch for ch in value if ch.isdigit())
+    if digits.startswith("998") and len(digits) == 12:
+        return "+" + digits
+    if len(digits) == 9:  # mahalliy 9 xonali
+        return "+998" + digits
+    raise serializers.ValidationError("Telefon raqami noto'g'ri (+998XXXXXXXXX).")
+
+
+class OtpSendSerializer(serializers.Serializer):
+    phone = serializers.CharField()
+
+    def validate_phone(self, value):
+        return _normalize_uz_phone(value)
+
+
+class OtpVerifySerializer(serializers.Serializer):
+    phone = serializers.CharField()
+    code = serializers.RegexField(r"^\d{6}$")
+
+    def validate_phone(self, value):
+        return _normalize_uz_phone(value)

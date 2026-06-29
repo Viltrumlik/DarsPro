@@ -4,8 +4,9 @@ import { motion } from "framer-motion";
 import { TriangleAlert } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
+import { SocialAuth } from "@/components/auth/SocialAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input, Label } from "@/components/ui/input";
@@ -15,6 +16,7 @@ import { useAuth } from "@/lib/store";
 export default function LoginPage() {
   const router = useRouter();
   const { login, loading } = useAuth();
+  const goDashboard = useCallback(() => router.push("/dashboard"), [router]);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -69,6 +71,7 @@ export default function LoginPage() {
             {loading ? "Kutib turing…" : "Kirish"}
           </Button>
         </form>
+        <SocialAuth onSuccess={goDashboard} />
         <p className="mt-4 text-center text-sm text-muted-foreground">
           Akkauntingiz yo'qmi?{" "}
           <Link href="/register" className="font-medium text-primary underline">

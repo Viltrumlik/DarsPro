@@ -1,10 +1,15 @@
 """DarsPro — /api/auth/ marshrutlari."""
 from django.urls import path
 
+from .auth_views import (
+    GoogleAuthView,
+    OtpSendView,
+    OtpVerifyView,
+    TelegramAuthView,
+)
 from .views import (
     LoginView,
     LogoutView,
-    NotImplementedAuthView,
     RefreshView,
     RegisterView,
 )
@@ -14,9 +19,9 @@ urlpatterns = [
     path("login", LoginView.as_view(), name="login"),
     path("refresh", RefreshView.as_view(), name="refresh"),
     path("logout", LogoutView.as_view(), name="logout"),
-    # Keyingi fazada ulanadi (hozir 501)
-    path("google", NotImplementedAuthView.as_view(), name="google"),
-    path("telegram", NotImplementedAuthView.as_view(), name="telegram"),
-    path("otp/send", NotImplementedAuthView.as_view(), name="otp-send"),
-    path("otp/verify", NotImplementedAuthView.as_view(), name="otp-verify"),
+    # Ijtimoiy / telefon auth
+    path("google", GoogleAuthView.as_view(), name="google"),
+    path("telegram", TelegramAuthView.as_view(), name="telegram"),
+    path("otp/send", OtpSendView.as_view(), name="otp-send"),
+    path("otp/verify", OtpVerifyView.as_view(), name="otp-verify"),
 ]

@@ -233,6 +233,17 @@ DEFAULT_FROM_EMAIL = env(
     "DEFAULT_FROM_EMAIL", default="DarsPro <no-reply@darspro.uz>"
 )
 
+# --- Auth provayderlari (Google / Telegram / SMS OTP) ---
+# Bo'sh qoldirilsa tegishli endpoint 503 qaytaradi (sozlanmagan).
+GOOGLE_CLIENT_ID = env("GOOGLE_CLIENT_ID", default="")
+TELEGRAM_BOT_TOKEN = env("TELEGRAM_BOT_TOKEN", default="")
+TELEGRAM_BOT_USERNAME = env("TELEGRAM_BOT_USERNAME", default="")
+SMS_PROVIDER = env("SMS_PROVIDER", default="console")  # console | eskiz
+ESKIZ_EMAIL = env("ESKIZ_EMAIL", default="")
+ESKIZ_PASSWORD = env("ESKIZ_PASSWORD", default="")
+SMS_FROM = env("SMS_FROM", default="4546")
+OTP_TTL_SEC = env.int("OTP_TTL_SEC", default=300)
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # --- API hujjat (drf-spectacular) ---

@@ -27,8 +27,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     full_name = models.CharField(max_length=255, blank=True)
     email = models.EmailField(unique=True)
-    phone = models.CharField(max_length=20, null=True, blank=True)
-    telegram_id = models.CharField(max_length=64, null=True, blank=True)
+    phone = models.CharField(max_length=20, null=True, blank=True, unique=True)
+    telegram_id = models.CharField(
+        max_length=64, null=True, blank=True, unique=True
+    )
     auth_provider = models.CharField(
         max_length=16, choices=AuthProvider.choices, default=AuthProvider.EMAIL
     )
