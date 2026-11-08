@@ -4,9 +4,19 @@ O'zbekiston maktab o'qituvchilari uchun **o'yin platformasi** — tayyor o'yinla
 kontent kutubxonasi. O'qituvchilar savollarini kiritadi, o'yin enginelari original
 o'yinlar yaratadi, sinf jonli (real-time) rejimda o'ynaydi.
 
-[![CI](https://github.com/A1isherDev/DarsPro/actions/workflows/ci.yml/badge.svg)](https://github.com/A1isherDev/DarsPro/actions/workflows/ci.yml)
+[![CI](https://github.com/Viltrumlik/DarsPro/actions/workflows/ci.yml/badge.svg)](https://github.com/Viltrumlik/DarsPro/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 > **Til:** faqat o'zbek tili · **Platforma:** web (online-only) · **Auditoriya:** 1–11 sinf o'qituvchilari
+
+**English summary.** DarsPro is a classroom game platform for school teachers in Uzbekistan
+(grades 1–11, Uzbek-language UI). Teachers enter their own questions into one of 11 game
+engines (quiz, matching, flashcards, memory, spin wheel, sort order, fill in the blank,
+crossword, word search, true/false, poll) or pick ready-made content from a library, then
+play solo or run a live class session: students join with a short code and no account, with
+a real-time leaderboard over WebSockets. Stack: Django 5 + DRF + Channels + Celery +
+PostgreSQL + Redis on the backend, Next.js 14 + TypeScript + Tailwind on the frontend.
+Setup steps are under *Tez boshlash* (Quick start) below.
 
 ---
 
@@ -14,8 +24,8 @@ o'yinlar yaratadi, sinf jonli (real-time) rejimda o'ynaydi.
 
 - 🔐 **Auth** — email + parol (JWT). Google/Telegram/OTP keyingi fazada.
 - 📚 **Kontent kutubxonasi** — sinf / fan / mavzu bo'yicha filtr, paginatsiya.
-- 🛠 **Builder** — 9 ta o'yin engine: Quiz, Matching, Flashcard, Memory, Spin Wheel,
-  Sort Order, Fill Blank, Crossword, Word Search. Har biri Play + Builder rejimida.
+- 🛠 **Builder** — 11 ta o'yin engine: Quiz, Matching, Flashcard, Memory, Spin Wheel,
+  Sort Order, Fill Blank, Crossword, Word Search, True/False, Poll. Har biri Play + Builder rejimida.
 - 🎓 **Rejimlar** — yakka (solo), sinf (live), juft, jamoa.
 - 📡 **Real-time sinf** — WebSocket (Django Channels): host boshqaradi, o'quvchilar
   kod bilan akkauntsiz qo'shiladi, jonli reyting, medallar.
@@ -30,7 +40,7 @@ o'yinlar yaratadi, sinf jonli (real-time) rejimda o'ynaydi.
 |--------|----------------|
 | **Backend** | Django 5, DRF, Django Channels, Celery, PostgreSQL, Redis, SimpleJWT |
 | **Frontend** | Next.js 14 (App Router), TypeScript, TailwindCSS, Framer Motion, Zustand |
-| **Test/CI** | Django test (20), Vitest (39), GitHub Actions |
+| **Test/CI** | Django test (39), Vitest (47), Playwright (e2e smoke), GitHub Actions |
 | **Infra** | Docker Compose (db, redis, web, worker, beat), S3-mos storage (media) |
 
 ## Struktura
@@ -91,3 +101,7 @@ cd frontend && npm run test && npm run build
 
 To'liq spetsifikatsiya: [`CLAUDE.md`](CLAUDE.md).
 Owner: @Viltrumlik
+
+## Litsenziya / License
+
+[MIT](LICENSE) litsenziyasi asosida tarqatiladi. Released under the [MIT License](LICENSE).
